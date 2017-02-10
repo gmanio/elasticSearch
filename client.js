@@ -29,24 +29,38 @@ client.ping({
 // });
 
 
+// client.search({
+//     // index: 'stackoverflow',
+//     // type: 'datas',
+//     body: {
+//         query: {
+//             match: {
+//                 content:'<p><em>(original title: Do some Android vendors'
+//             }
+//         },
+//         size: 1000
+//     }
+// }).then(function (response) {
+//     var hits = response.hits.hits;
+// }, function (error) {
+//     console.trace(error.message);
+// });
+
+
 client.search({
-    // index: 'stackoverflow',
-    // type: 'datas',
     body: {
         query: {
             match: {
-                // content: 'I have a HTC Desire that was on 2.1'
-                // fields: ['content']
-
-                writer: {
-                    "query": 'feronjb',
-                    "operator": "and"
+                content: {
+                    query: "<p>I uploaded a folder containing pictures",
+                    "type" : "phrase"
                 }
             }
         }
     }
+
 }).then(function (response) {
-    var hits = response.hits.hits;
-}, function (error) {
-    console.trace(error.message);
+    console.log(response.hits.hits);
+}).catch(function (err) {
+    console.log('Failed to search. ' + err.message);
 });
